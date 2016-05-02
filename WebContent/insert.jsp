@@ -20,7 +20,7 @@
 	String writer = request.getParameter("writer");
 	String content = request.getParameter("content");
 	String regdate = request.getParameter("regdate");
-	int count = 10000;
+	int count = 0;
 	
 	if( title == "" || title == null ) out.println("title이 null입니다.");
 	if( writer == "" || writer == null)  out.println("writer가 null입니다.");
