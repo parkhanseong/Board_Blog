@@ -4,6 +4,27 @@
 
 <sqlMap namespace="Board">
     
+    <typeAlias alias="str" type="java.lang.String"/>
+    <typeAlias alias="int" type="java.lang.Integer"/>
+    <typeAlias alias="board" type="com.board.beans.Board"/>
     
+    <select id="getArticleList" resultClass="board">
+        select * from Board order by idx desc
+    </select>
+    
+    <insert id="insertArticle"  parameterClass ="">
+        insert into Board(title, writer, content) values()
+    </insert>
+ 
+	<delete id="deleteArticle"  parameterClass ="int"> 
+	</delete>
+ 
+	<update id="updateArticle"  parameterClass ="int"> 
+	</update>
     
 </sqlMap>
+
+
+
+
+

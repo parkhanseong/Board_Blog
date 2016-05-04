@@ -2,20 +2,27 @@ package com.board.controller;
  
 import java.io.*; 
 import java.util.*; 
+
 import javax.servlet.*; 
 import javax.servlet.http.*;
  
 public class ControllerAction extends HttpServlet {
  
-    private Map commandMap = new HashMap(); // 명령어와 명령어 처리 클래스를 쌍으로 저장
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Map commandMap = new HashMap(); // 명령어와 명령어 처리 클래스를 쌍으로 저장
  
     public void init(ServletConfig config) throws ServletException {
         // Common properties 
         loadProperties("com/board/properties/Command");
     }
- 
+    
     // properties 설정 
-    private void loadProperties(String path) {
+    @SuppressWarnings("unchecked")
+	private void loadProperties(String path) {
  
         ResourceBundle rbHome = ResourceBundle.getBundle(path);// 누구를 실행할지를 rb에
                                                                 // 저장.
@@ -23,7 +30,6 @@ public class ControllerAction extends HttpServlet {
         Enumeration<String> actionEnumHome = rbHome.getKeys();
  
         while (actionEnumHome.hasMoreElements())
- 
         {
  
             String command = actionEnumHome.nextElement();
@@ -31,7 +37,8 @@ public class ControllerAction extends HttpServlet {
  
             try {
  
-                Class commandClass = Class.forName(className); // 해당 문자열을 클래스로
+                @SuppressWarnings("rawtypes")
+				Class commandClass = Class.forName(className); // 해당 문자열을 클래스로
                                                                 // 만든다
  
                 Object commandInstance = commandClass.newInstance(); // 해당 클래스의
@@ -64,16 +71,16 @@ public class ControllerAction extends HttpServlet {
     }
  
     protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+        HttpServletResponse response) throws ServletException, IOException {
         requestPro(request, response);
     }
  
     // 사용자의 요청을 분석해서 해당 작업을 처리
     private void requestPro(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+        HttpServletResponse response) throws ServletException, IOException {
         String view = null;
         CommandAction com = null;
-
+        
         try {
  
             String command = request.getRequestURI();
@@ -83,7 +90,7 @@ public class ControllerAction extends HttpServlet {
             }
  
             com = (CommandAction) commandMap.get(command);
- 
+            
             if (com == null) {
                 System.out.println("not found : " + command);
                 return;
